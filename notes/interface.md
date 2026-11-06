@@ -22,10 +22,10 @@ XとYが別々にコードを書いても、名前がずれないようにする
 | | 合格点 | `pass_score` |
 | | 授業の全回数 | `total_classes` |
 | | 欠席した回数（最初は0） | `absences` |
-| 成績の項目（GradeItem） | どの科目か | `course` |
+| 成績の項目（GradeItem） | どの科目か | `course_id` |
 | | 項目名（課題、小テストなど） | `name` |
 | | 割合（％） | `percent` |
-| 課題（Task） | どの項目か | `grade_item` |
+| 課題（Task） | どの項目か | `grade_item_id` |
 | | 何回目 | `number` |
 | | 締切 | `due_on` |
 | | 状態 | `status` |
