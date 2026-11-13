@@ -1,6 +1,10 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  # Codespacesのアドレスは普段と違うので、アドレスの確認をやめる（開発中だけ）
+  config.hosts.clear
+  # Codespacesの中継でフォームの送り元が変わっても、断らない（開発中だけ）
+  config.action_controller.forgery_protection_origin_check = false
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Make code changes take effect immediately without server restart.
