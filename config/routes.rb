@@ -1,14 +1,15 @@
+# このアプリの「URL」と「画面」の対応表
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # 動いているか確かめるための入口。Railsが最初から用意している。消さない。
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  # トップページ（/）を開いたら、科目一覧（CoursesControllerのindex）を出す。
+  root "courses#index"
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  # 科目の一覧・登録・編集・削除のURLを、まとめて作る（/courses など）。
+  # 1件だけ見る画面（show）は使わないので、除く。
+  resources :courses, except: [ :show ] do
+    # 科目の中に、課題のURLを入れる（/courses/科目の番号/tasks など）。
+    resources :tasks, except: [ :show ]
+  end
 end
