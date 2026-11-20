@@ -1,0 +1,22 @@
+<h1><%= @course.name %>の課題</h1>
+<p>
+  <%= link_to "課題を登録する", new_course_task_path(@course) %> /
+  <%= link_to "科目一覧へ", root_path %>
+</p>
+<% if @tasks.empty? %>
+  <p>まだ課題がありません。</p>
+<% else %>
+  <table>
+    <tr><th>回</th><th>項目</th><th>締切</th><th>状態</th><th>得点</th></tr>
+    <% @tasks.each do |task| %>
+      <%# 期限切れなら、行を赤にして「期限切れ」と書く（色だけに頼らない） %>
+      <tr style="<%= 'color: red;' if task.overdue? %>">
+        <td>第<%= task.number %>回</td>
+        <td><%= task.grade_item.name %></td>
+        <td><%= task.due_on %><%= "（期限切れ）" if task.overdue? %></td>
+        <td><%= task.status %></td>
+        <td><%= task.score.nil? ? "-" : "#{task.score} / #{task.max_score}" %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
