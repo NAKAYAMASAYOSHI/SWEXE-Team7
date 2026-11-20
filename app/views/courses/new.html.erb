@@ -1,0 +1,18 @@
+<h1>科目を登録する</h1>
+
+<%# 入力が間違っていたときのエラーを、赤で出す %>
+<% if @course.errors.any? %>
+  <ul style="color: red;">
+    <% @course.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with model: @course do |f| %>
+  <p><%= f.label :name, "科目名" %><br><%= f.text_field :name %></p>
+  <p><%= f.label :pass_score, "合格点（0〜100）" %><br><%= f.number_field :pass_score, value: f.object.pass_score || 60 %></p>
+  <p><%= f.label :total_classes, "全授業回数" %><br><%= f.number_field :total_classes, value: f.object.total_classes || 15 %></p>
+  <p><%= f.submit "登録する" %></p>
+<% end %>
+<p><%= link_to "一覧に戻る", courses_path %></p>
