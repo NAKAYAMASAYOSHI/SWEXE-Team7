@@ -1,14 +1,18 @@
-<%# 科目一覧の画面。このように書いたメモは、画面には出ない %>
 <h1>科目一覧</h1>
-
-<%# 科目が1つもないとき（空のとき）は、メッセージを出す %>
+<p><%= link_to "科目を登録する", new_course_path %></p>
 <% if @courses.empty? %>
   <p>まだ科目がありません。</p>
 <% else %>
   <ul>
-    <%# 科目を1つずつ取り出して、名前を並べる %>
     <% @courses.each do |course| %>
-      <li><%= course.name %></li>
+      <li>
+        <%= course.name %>（合格点 <%= course.pass_score %>点・全<%= course.total_classes %>回）
+        <%# 課題の画面はYが作る。Yのマージ前は押さない %>
+        <%= link_to "課題を見る", course_tasks_path(course) %>
+        <%# 削除は確認メッセージを出してから実行する %>
+        <%= button_to "削除", course_path(course), method: :delete,
+              form: { style: "display: inline;", data: { turbo_confirm: "この科目の課題も全部消えます。削除しますか？" } } %>
+      </li>
     <% end %>
   </ul>
 <% end %>

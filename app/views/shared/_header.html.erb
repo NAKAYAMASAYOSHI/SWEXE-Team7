@@ -1,0 +1,5 @@
+<%# 全ページ共通の上の部分：メニューと、成功メッセージ(notice)を出す %>
+<nav><%= link_to "科目一覧", root_path %></nav>
+<% if notice %>
+  <p style="color: green;"><%= notice %></p>
+<% end %>
