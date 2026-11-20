@@ -1,0 +1,20 @@
+<h1><%= @course.name %>の課題を登録する</h1>
+
+<%# 入力が間違っていたときのエラーを、赤で出す %>
+<% if @task.errors.any? %>
+  <ul style="color: red;">
+    <% @task.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with model: [@course, @task] do |f| %>
+  <p><%= f.label :number, "第何回" %><br><%= f.number_field :number %></p>
+  <p><%= f.label :due_on, "締切" %><br><%= f.date_field :due_on %></p>
+  <p><%= f.label :status, "状態" %><br><%= f.select :status, Task::STATUSES %></p>
+  <p><%= f.label :max_score, "満点（わかれば）" %><br><%= f.number_field :max_score %></p>
+  <p><%= f.label :score, "得点（返却済みのときは必須）" %><br><%= f.number_field :score %></p>
+  <p><%= f.submit "登録する" %></p>
+<% end %>
+<p><%= link_to "課題一覧に戻る", course_tasks_path(@course) %></p>
