@@ -7,7 +7,10 @@
     <% @courses.each do |course| %>
       <li>
         <%= course.name %>（合格点 <%= course.pass_score %>点・全<%= course.total_classes %>回）
-        <%# 課題の画面はYが作る。Yのマージ前は押さない %>
+        <%# 成績の項目を「課題30% / 試験70%」の形で出す %>
+        <% if course.grade_items.any? %>
+          <br>成績：<%= course.grade_items.map { |g| "#{g.name}#{g.percent}%" }.join(" / ") %>
+        <% end %>
         <%= link_to "課題を見る", course_tasks_path(course) %>
         <%# 削除は確認メッセージを出してから実行する %>
         <%= button_to "削除", course_path(course), method: :delete,

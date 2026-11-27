@@ -13,6 +13,16 @@
   <p><%= f.label :name, "科目名" %><br><%= f.text_field :name %></p>
   <p><%= f.label :pass_score, "合格点（0〜100）" %><br><%= f.number_field :pass_score, value: f.object.pass_score || 60 %></p>
   <p><%= f.label :total_classes, "全授業回数" %><br><%= f.number_field :total_classes, value: f.object.total_classes || 15 %></p>
+
+  <h2>成績の項目（合計100%にする）</h2>
+  <%# 項目の入力行。使わない行は、空のままにする %>
+  <%= f.fields_for :grade_items do |gf| %>
+    <p>
+      <%= gf.text_field :name, placeholder: "項目名（例：課題）" %>
+      <%= gf.number_field :percent, placeholder: "割合" %> %
+    </p>
+  <% end %>
+
   <p><%= f.submit "登録する" %></p>
 <% end %>
 <p><%= link_to "一覧に戻る", courses_path %></p>
