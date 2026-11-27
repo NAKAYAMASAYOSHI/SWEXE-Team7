@@ -14,13 +14,28 @@ class TasksController < ApplicationController
 
   # 登録ボタンを押したとき
   def create
-    # 成績の項目の画面は第11回で作る。それまでは「課題」という項目を自動で1つ用意して使う
-    grade_item = @course.grade_items.first_or_create!(name: "課題", percent: 0)
-    @task = grade_item.tasks.new(task_params)
+    @task = Task.new(task_params.except(:grade_item_id))
+    # 選ばれた項目が、この科目のものかを確かめてから使う
+    @task.grade_item = @course.grade_items.find_by(id: task_params[:grade_item_id])
     if @task.save
       redirect_to course_tasks_path(@course), notice: "課題を登録しました"
     else
       render :new, status: :unprocessable_entity
+    end
+  end
+
+  # 編集画面：この科目の課題を1つ取り出す
+  def edit
+    @task = @course.tasks.find(params[:id])
+  end
+
+  # 保存ボタンを押したとき（項目は変えない）
+  def update
+    @task = @course.tasks.find(params[:id])
+    if @task.update(task_params.except(:grade_item_id))
+      redirect_to course_tasks_path(@course), notice: "課題を更新しました"
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -32,6 +47,6 @@ class TasksController < ApplicationController
 
   # 画面から受け取ってよい項目だけを決める
   def task_params
-    params.require(:task).permit(:number, :due_on, :status, :max_score, :score)
+    params.require(:task).permit(:grade_item_id, :number, :due_on, :status, :max_score, :score)
   end
 end
