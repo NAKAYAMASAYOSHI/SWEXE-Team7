@@ -7,7 +7,7 @@
   <p>まだ課題がありません。</p>
 <% else %>
   <table>
-    <tr><th>回</th><th>項目</th><th>締切</th><th>状態</th><th>得点</th></tr>
+    <tr><th>回</th><th>項目</th><th>締切</th><th>状態</th><th>得点</th><th></th></tr>
     <% @tasks.each do |task| %>
       <%# 期限切れなら、行を赤にして「期限切れ」と書く（色だけに頼らない） %>
       <tr style="<%= 'color: red;' if task.overdue? %>">
@@ -16,6 +16,7 @@
         <td><%= task.due_on %><%= "（期限切れ）" if task.overdue? %></td>
         <td><%= task.status %></td>
         <td><%= task.score.nil? ? "-" : "#{task.score} / #{task.max_score}" %></td>
+        <td><%= link_to "編集", edit_course_task_path(@course, task) %></td>
       </tr>
     <% end %>
   </table>
